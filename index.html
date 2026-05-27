@@ -13,8 +13,6 @@
 }
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:'Noto Sans TC',sans-serif;background:var(--bg);color:var(--text-primary);font-size:14px;line-height:1.6}
-
-/* HEADER */
 header{background:var(--surface);border-bottom:1px solid var(--border);padding:12px 16px;position:sticky;top:0;z-index:100}
 .header-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
 .header-top h1{font-size:16px;font-weight:600}
@@ -26,39 +24,29 @@ header{background:var(--surface);border-bottom:1px solid var(--border);padding:1
 .search-box svg{position:absolute;left:8px;top:50%;transform:translateY(-50%);width:13px;height:13px;color:var(--text-muted)}
 select{border:1px solid var(--border);border-radius:6px;padding:6px 24px 6px 8px;font-size:12px;font-family:inherit;color:var(--text-primary);background:var(--bg);outline:none;cursor:pointer;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%236b6960' stroke-width='1.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 7px center}
 .count-badge{font-size:11px;color:var(--text-muted);white-space:nowrap}
-
-/* STATS */
 .stats-bar{display:flex;gap:8px;padding:12px 16px 0;overflow-x:auto;-webkit-overflow-scrolling:touch}
 .stats-bar::-webkit-scrollbar{display:none}
 .stat-card{background:var(--surface);border:1px solid var(--border);border-radius:7px;padding:6px 12px;display:flex;align-items:center;gap:7px;white-space:nowrap;flex-shrink:0}
 .stat-card .n{font-size:16px;font-weight:600;line-height:1}
 .stat-card .l{font-size:11px;color:var(--text-muted)}
 .done .n{color:var(--done-c)}.prog .n{color:var(--prog-c)}
-
-/* MAIN */
 main{padding:10px 16px 24px}
-
-/* CARD LIST */
 .card-list{display:flex;flex-direction:column;gap:8px;margin-top:10px}
 .card{background:var(--surface);border:1px solid var(--border);border-radius:10px;overflow:hidden}
-.card-main{padding:11px 13px;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.card-main{padding:11px 13px}
 .card-top{display:flex;align-items:center;gap:6px;margin-bottom:5px;flex-wrap:wrap}
 .card-date{font-size:11px;color:var(--text-muted)}
-.card-bottom{display:flex;align-items:flex-start;justify-content:space-between;gap:8px}
-.card-task{font-size:14px;color:var(--text-primary);flex:1;line-height:1.5}
-.card-unit{font-size:12px;color:var(--text-secondary);flex-shrink:0;margin-top:2px}
-.expand-icon{font-size:10px;color:var(--text-muted);transition:transform .2s;flex-shrink:0;margin-top:4px}
+.card-unit{font-size:12px;color:var(--text-secondary);margin-bottom:2px}
+.card-task{font-size:14px;color:var(--text-primary);line-height:1.5}
+.expand-icon{font-size:10px;color:var(--text-muted);transition:transform .2s;float:right;margin-top:2px}
 .card.expanded .expand-icon{transform:rotate(90deg)}
-
-/* NOTE PANEL */
+.card.has-note .card-main{cursor:pointer;-webkit-tap-highlight-color:transparent}
 .card-note{display:none;border-top:1px solid #dce7f5;background:#f4f7fd;padding:10px 13px;border-left:3px solid var(--accent)}
 .card.expanded .card-note{display:block}
 .card-note-inner{display:flex;align-items:flex-start;gap:8px}
 .card-note-inner svg{flex-shrink:0;margin-top:3px;width:13px;height:13px;color:var(--accent)}
 .card-note-text{font-size:13px;color:#2b5fa8;line-height:1.7;white-space:pre-wrap;word-break:break-all}
 .note-tag{display:inline-block;background:#fdeef0;color:#9c2830;border-radius:4px;padding:1px 6px;font-size:11px;font-weight:600;margin-right:4px}
-
-/* BADGES */
 .badge{display:inline-block;padding:2px 7px;border-radius:20px;font-size:11px;font-weight:500;white-space:nowrap}
 .s-done{background:var(--done-bg);color:var(--done-c)}
 .s-prog{background:var(--prog-bg);color:var(--prog-c)}
@@ -71,31 +59,19 @@ main{padding:10px 16px 24px}
 .c-onsite{background:#fdeef0;color:#9c2830}
 .c-security{background:#fef8e8;color:#8a6a10}
 .c-other{background:#f0efee;color:#555248}
-
-.empty-state{text-align:center;padding:40px 20px;color:var(--text-muted);font-size:14px;display:none}
 .hidden{display:none!important}
-
-/* DESKTOP: 寬螢幕改回表格 */
+.empty-state{text-align:center;padding:40px 20px;color:var(--text-muted);font-size:14px;display:none}
+.loading{text-align:center;padding:60px 20px;color:var(--text-muted);font-size:14px}
+.loading-spinner{width:28px;height:28px;border:3px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:spin .8s linear infinite;margin:0 auto 12px}
+@keyframes spin{to{transform:rotate(360deg)}}
+.error-state{text-align:center;padding:40px 20px;color:#9c2830;font-size:13px;background:#fdeef0;border-radius:8px;margin:16px}
 @media(min-width:768px){
   header{padding:18px 32px}
-  .header-top{margin-bottom:10px}
   .header-top h1{font-size:18px}
   .controls{gap:10px}
   .stats-bar{padding:20px 32px 0;gap:12px}
-  .stat-card{padding:10px 16px;gap:8px}
-  .stat-card .n{font-size:20px}
-  .stat-card .l{font-size:12px}
+  .stat-card{padding:10px 16px}.stat-card .n{font-size:20px}
   main{padding:16px 32px 32px}
-  .card-list{gap:0;border:1px solid var(--border);border-radius:10px;overflow:hidden;background:var(--surface);margin-top:16px}
-  .card{border:none;border-bottom:1px solid #f0efe9;border-radius:0}
-  .card:last-child{border-bottom:none}
-  .card-main{display:grid;grid-template-columns:100px 80px 90px 90px 1fr;align-items:center;gap:0;padding:10px 0;cursor:default}
-  .card.has-note .card-main{cursor:pointer}
-  .card-top{display:contents}
-  .card-date{padding:0 14px;font-size:13px}
-  .card-bottom{display:contents}
-  .card-task{padding:0 14px;font-size:13px}
-  .card-unit{padding:0 14px;font-size:13px;margin-top:0}
 }
 </style>
 </head>
@@ -103,7 +79,7 @@ main{padding:10px 16px 24px}
 <header>
   <div class="header-top">
     <h1>工作記錄</h1>
-    <p>最後更新：2026/5/27</p>
+    <p id="last-updated">載入中…</p>
   </div>
   <div class="controls">
     <div class="search-box">
@@ -134,153 +110,110 @@ main{padding:10px 16px 24px}
 <div class="stats-bar" id="sb"></div>
 
 <main>
-  <div class="card-list" id="cl"></div>
+  <div id="loading" class="loading">
+    <div class="loading-spinner"></div>
+    載入資料中…
+  </div>
+  <div class="card-list" id="cl" style="display:none"></div>
   <div class="empty-state" id="es">找不到符合條件的記錄</div>
 </main>
 
 <script>
-const data=[
-["2026/6/8","未開始","會議","網路組","計算機指導委員會",""],
-["2026/6/6","未開始","一般事務","課指組","畢業典禮",""],
-["2026/6/5","進行中","一般事務","網路組","卡巴授權到期，確認續約狀態","6/5到期"],
-["2026/5/29","進行中","一般事務","網路組","資通安全維護計畫&大陸廠牌盤點","5/29前完成"],
-["2026/5/27","未開始","一般事務","網路組","永磐網路定期維護",""],
-["2026/5/27","已完成","一般事務","網路組","vpn帳號清查",""],
-["2026/5/26","已完成","一般事務","網路組","unicamp VPN 被入侵",""],
-["2026/5/26","已完成","一般事務","國際處","國際生健保系統FW#973 on",""],
-["2026/5/25","已完成","一般事務","博館所","FW#923 on",""],
-["2026/5/21","進行中","一般事務","主計室","審計部查帳-聲復資料","6/5前寄給武祥"],
-["2026/5/21","已完成","遠端協助","圖書館","書店廠商wifi帳號5組開通",""],
-["2026/5/20","已完成","遠端協助","系統組","廠商wifi帳號開通(sysguest)",""],
-["2026/5/20","已完成","維修檢測","網路組","綜合宿舍10.172.0.209故障維修",""],
-["2026/5/19","已完成","一般事務","美術系","集保藝術賞27001證書",""],
-["2026/5/19","已完成","一般事務","網路組","中心會議資料","5/19交"],
-["2026/5/18","已完成","到場協助","主計室","錢燕玲NAS無法登",""],
-["2026/5/18","已完成","到場協助","諮商中心","妮聲smb重設","5/18 仲豪過去"],
-["2026/5/15","進行中","會議","網路組","交計導檔案","6/8開會，5/29前交檔案"],
-["2026/5/13","已完成","一般事務","網路組","cppm訪客能否連特定ap",""],
-["2026/5/13","已完成","一般事務","網路組","cppm guest限速調整(在MM設定)",""],
-["2026/5/13","已完成","一般事務","系統組","監視器帳號申請ccyu",""],
-["2026/5/13","已完成","一般事務","網路組","防火牆汰換案底價表",""],
-["2026/5/13","已完成","遠端協助","秘書室","捐款網站故障","CHW"],
-["2026/5/13","已完成","遠端協助","舞蹈系","訪客用wifi帳密","CHW"],
-["2026/5/12","已完成","會議","網路組","校務會議資料","5/12交"],
-["2026/5/12","已完成","一般事務","系統組","異地備份NAS 帳號開通",""],
-["2026/5/8","已完成","一般事務","網路組","R211、國際會議廳AP GROUP設定跑掉",""],
-["2026/5/8","進行中","詢價採購","網路組","NATAPP E2824保固",""],
-["2026/5/7","已完成","維修檢測","網路組","女二舍上層交換器故障維護","CHW"],
-["2026/5/7","已完成","一般事務","電算中心","教育訓練需求調查表","5/8以前交"],
-["2026/5/7","進行中","資安","網路組","資安攻防演練相關事宜",""],
-["2026/5/7","已完成","一般事務","網路組","確認WEBEX授權更新","5/7後看教育版狀態"],
-["2026/5/6","已完成","一般事務","網路組","卡巴排除.EXE檔詢問",""],
-["2026/5/6","已完成","一般事務","網路組","戲舞大樓、藝文生態館場勘","異地備援chw、ccyu"],
-["2026/5/6","已完成","會議","網路組","中心會議資料","5/6交"],
-["2026/5/5","已完成","遠端協助","課指組","湯妮寄大量信件被鎖",""],
-["2026/5/5","已完成","遠端協助","生輔組","會議平版WIFI設定(師培借)",""],
-["2026/5/5","已完成","維修檢測","網路組","研究生宿舍4F SWITCH故障",""],
-["2026/5/5","已完成","一般事務","傳音系","115學年度線上招生說明會-webex借用","5/13改密碼"],
-["2026/5/4","已完成","到場協助","文資學院","R518、519 WINDOWS升級","仲豪"],
-["2026/5/4","進行中","詢價採購","網路組","防火牆汰換簽文送出",""],
-["2026/5/4","已完成","一般事務","網路組","nas168滿，清空間","chw"],
-["2026/5/4","已完成","一般事務","主計室","吳士杰nas帳號申請(shijie)",""],
-["2026/4/30","已完成","一般事務","網路組","交智財自評表",""],
-["2026/4/29","已完成","一般事務","網路組","社交工程教育訓練",""],
-["2026/4/28","已完成","遠端協助","事務組","停車場管理系統無法連入",""],
-["2026/4/28","已完成","一般事務","文書組","訪客用wifi帳密",""],
-["2026/4/27","已完成","會議","網路組","畢業典禮籌備委員會",""],
-["2026/4/27","進行中","一般事務","網路組","微軟ESU請購",""],
-["2026/4/27","已完成","一般事務","藝管所","2026藝術行政與管理研討會wifi申請","活動日5/7~5/8"],
-["2026/4/23","已完成","一般事務","藝推中心","藝推網站FW#796 on","5/23 off"],
-["2026/4/22","已完成","一般事務","網路組","4/29詢問呂老師問題",""],
-["2026/4/21","已完成","會議","網路組","中心會議資料","4/22交"],
-["2026/4/21","已完成","其它","網路組","我的考核表","4/21交"],
-["2026/4/20","已完成","維修檢測","女一舍","poe switch離線檢測",""],
-["2026/4/17","已完成","詢價採購","網路組","128G 隨身碟*10",""],
-["2026/4/17","已完成","一般事務","網路組","永磐網路定期維護",""],
-["2026/4/17","已完成","會議","網路組","ISMS討論",""],
-["2026/4/16","已完成","遠端協助","戲劇系","朱宏章老師WIFI無法使用",""],
-["2026/4/16","已完成","到場協助","網路組","MIT、圖書館 windows10升級","仲豪、冠逸"],
-["2026/4/16","已完成","一般事務","保管組","捐贈財產查詢",""],
-["2026/4/16","已完成","一般事務","網路組","IP表增加IOT欄位",""],
-["2026/4/15","已完成","一般事務","圖書館","ip申請-李苗妙10.5.0.102",""],
-["2026/4/14","已完成","一般事務","營繕組","研究生宿舍頂樓熱泵控制ip申請",""],
-["2026/4/14","進行中","資安","網路組","ISMS外稽時間預約--10/2",""],
-["2026/4/14","已完成","詢價採購","網路組","FOT採購",""],
-["2026/4/13","已完成","一般事務","網路組","行政會議檔案","4/21交"],
-["2026/4/13","已完成","一般事務","網路組","ISMS時程安排",""],
-["2026/4/13","已完成","一般事務","研發處","永續網站Domain指向校首頁ip",""],
-["2026/4/13","進行中","一般事務","網路組","xp、win7、win10 EOS 汰換簽文內容",""],
-["2026/4/13","已完成","會議","網路組","ISMS起始","4/13 10:00"],
-["2026/4/13","已完成","詢價採購","網路組","FW估價單","CHW"],
-["2026/4/13","已完成","一般事務","網路組","NAS rsync帳號修改",""],
-["2026/4/13","已完成","一般事務","網路組","徵人文件準備",""],
-["2026/4/10","已完成","一般事務","網路組","北藝大<>台大區網專線掉包",""],
-["2026/4/9","進行中","到場協助","藝推中心","辦公室網路會勘",""],
-["2026/4/9","已完成","一般事務","網路組","FAZ2000B硬碟更換",""],
-["2026/4/8","已完成","遠端協助","保管組","行政大樓4F電腦IP設定(原校長室)",""],
-["2026/4/8","已完成","一般事務","研發處","審閱校務發展計畫書初稿",""],
-["2026/4/7","已完成","到場協助","美術館","網路不通查線(交換器接錯電源)",""],
-["2026/4/7","已完成","一般事務","傳音系","webex借用外國學生申請入學考試","4/24改"],
-["2026/4/7","已完成","一般事務","系統組","芳伶臨時帳號(fangling)",""],
-["2026/4/7","已完成","一般事務","網路組","R302電燈故障報修",""],
-["2026/4/1","已完成","一般事務","網路組","每月vans上傳",""],
-["2026/4/1","已完成","一般事務","網路組","寄4/29社交工程edm","4/23 確認人數"],
-["2026/4/1","已完成","遠端協助","研究生宿舍","7F用電資料收集無法上網",""],
-["2026/4/1","已完成","一般事務","網路組","每月vans上傳",""],
-["2026/3/31","已完成","會議","網路組","中心會議資料","4/8交"],
-["2026/3/31","已完成","一般事務","網路組","wei 206 move to nutanix",""],
-["2026/3/31","已完成","一般事務","網路組","開通永磐vpn帳號",""],
-["2026/3/31","已完成","一般事務","原資中心","公務信箱申請(已PASS給桂茹)",""],
-["2026/3/30","已完成","會議","網路組","校務會議資料","4/8交"],
-["2026/3/30","已完成","一般事務","事務組","保費系統FW#906 on","4/30 off"],
-["2026/3/30","已完成","一般事務","網路組","晨維工作交接",""],
-["2026/3/30","已完成","一般事務","營繕組","公務帳號寄大量信件被lock",""],
-["2026/3/30","已完成","一般事務","網路組","R302 FAZ2000B 硬碟報修",""],
-["2026/3/26","已完成","遠端協助","網路組","CPPM清除-MIT-2 林新禕","CHW"],
-["2026/3/26","已完成","一般事務","主計室","補寄檔案給武祥(111、112管考、財產)",""],
-["2026/3/25","已完成","一般事務","研發處","王璦寧nas帳號(aining)",""]
-];
+const CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vROvbI11R5u7Fnk-yJUUEMC0KQgm7PVrbSjxYw_IlDoq08reiKgUU8FmxUDfTzFTCnSuHQLbGJ_KKM-/pub?output=csv';
 
 const catC={"會議":"c-meeting","一般事務":"c-general","維修檢測":"c-repair","詢價採購":"c-purchase","遠端協助":"c-remote","到場協助":"c-onsite","資安":"c-security","其它":"c-other"};
 const stC={"已完成":"s-done","進行中":"s-prog","未開始":"s-ns"};
 
-function buildCards(){
-  const cl=document.getElementById('cl');
-  cl.innerHTML='';
-  data.forEach((row,i)=>{
-    const note=row[5]||'';
-    const hasNote=note.trim()!=='';
-    const isTracked=note.includes('【待追蹤】');
-    const displayNote=note.replace('【待追蹤】','').trim().replace(/\s*／\s*/g,'\n');
+let allData = [];
 
-    const card=document.createElement('div');
-    card.className='card'+(hasNote?' has-note':'');
-    card.dataset.idx=i;
+// 解析 CSV（處理含逗號、換行的欄位）
+function parseCSV(text) {
+  const rows = [];
+  let row = [], field = '', inQuote = false;
+  for (let i = 0; i < text.length; i++) {
+    const ch = text[i];
+    if (inQuote) {
+      if (ch === '"' && text[i+1] === '"') { field += '"'; i++; }
+      else if (ch === '"') { inQuote = false; }
+      else { field += ch; }
+    } else {
+      if (ch === '"') { inQuote = true; }
+      else if (ch === ',') { row.push(field); field = ''; }
+      else if (ch === '\n') {
+        row.push(field); field = '';
+        if (row.some(f => f.trim())) rows.push(row);
+        row = [];
+      } else if (ch === '\r') { /* skip */ }
+      else { field += ch; }
+    }
+  }
+  if (field || row.length) { row.push(field); if (row.some(f=>f.trim())) rows.push(row); }
+  return rows;
+}
 
-    card.innerHTML=`
+async function loadData() {
+  try {
+    const res = await fetch(CSV_URL + '&t=' + Date.now());
+    if (!res.ok) throw new Error('網路錯誤');
+    const text = await res.text();
+    const rows = parseCSV(text);
+
+    // 跳過標題列，取 A~G 欄（index 0~6）
+    // A=日期 B=狀態 C=分類 D=單位 E=事由 F=待追蹤 G=備註
+    allData = rows.slice(1)
+      .filter(r => r[0] && r[0].trim())
+      .map(r => ({
+        date:  (r[0]||'').trim(),
+        status:(r[1]||'').trim(),
+        cat:   (r[2]||'').trim(),
+        unit:  (r[3]||'').trim(),
+        task:  (r[4]||'').trim(),
+        note:  (r[6]||'').trim().replace(/\n/g,'；'),
+      }));
+
+    // 更新時間
+    document.getElementById('last-updated').textContent =
+      '最後更新：' + new Date().toLocaleString('zh-TW',{month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit'});
+
+    document.getElementById('loading').style.display = 'none';
+    document.getElementById('cl').style.display = 'flex';
+    buildCards();
+  } catch(e) {
+    document.getElementById('loading').innerHTML =
+      '<div class="error-state">⚠️ 資料載入失敗，請確認網路或 Sheets 發布設定<br><small>'+e.message+'</small></div>';
+  }
+}
+
+function buildCards() {
+  const cl = document.getElementById('cl');
+  cl.innerHTML = '';
+  allData.forEach((row, i) => {
+    const note = row.note;
+    const hasNote = note !== '';
+    const isTracked = note.includes('【待追蹤】');
+    const displayNote = note.replace('【待追蹤】','').trim().replace(/；/g,'\n');
+
+    const card = document.createElement('div');
+    card.className = 'card' + (hasNote ? ' has-note' : '');
+    card.dataset.idx = i;
+    card.innerHTML = `
       <div class="card-main">
         <div class="card-top">
-          <span class="card-date">${row[0]}</span>
-          <span class="badge ${stC[row[1]]||''}">${row[1]}</span>
-          <span class="badge ${catC[row[2]]||'c-other'}">${row[2]}</span>
+          <span class="card-date">${row.date}</span>
+          <span class="badge ${stC[row.status]||''}">${row.status}</span>
+          <span class="badge ${catC[row.cat]||'c-other'}">${row.cat}</span>
+          ${hasNote ? '<span class="expand-icon">▶</span>' : ''}
         </div>
-        <div class="card-bottom">
-          <div>
-            <div class="card-unit" style="margin-bottom:2px">${isTracked?'<span style="display:inline-block;width:6px;height:6px;background:#e05555;border-radius:50%;margin-right:4px;vertical-align:middle"></span>':''}${row[3]}</div>
-            <div class="card-task">${row[4]}</div>
-          </div>
-          ${hasNote?'<span class="expand-icon">▶</span>':''}
-        </div>
+        <div class="card-unit">${isTracked?'<span style="display:inline-block;width:6px;height:6px;background:#e05555;border-radius:50%;margin-right:4px;vertical-align:middle"></span>':''}${row.unit}</div>
+        <div class="card-task">${row.task}</div>
       </div>
-      ${hasNote?`<div class="card-note">
-        <div class="card-note-inner">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
-          <div class="card-note-text">${isTracked?'<span class="note-tag">待追蹤</span>':''}${displayNote}</div>
-        </div>
-      </div>`:''}`;
+      ${hasNote ? `<div class="card-note"><div class="card-note-inner">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+        <div class="card-note-text">${isTracked?'<span class="note-tag">待追蹤</span>':''}${displayNote}</div>
+      </div></div>` : ''}`;
 
-    if(hasNote){
-      card.querySelector('.card-main').addEventListener('click',()=>{
+    if (hasNote) {
+      card.querySelector('.card-main').addEventListener('click', () => {
         card.classList.toggle('expanded');
       });
     }
@@ -289,36 +222,37 @@ function buildCards(){
   applyFilters();
 }
 
-function applyFilters(){
-  const q=document.getElementById('search').value.toLowerCase();
-  const st=document.getElementById('fs').value;
-  const ct=document.getElementById('fc').value;
-  let vis=0;
-  document.querySelectorAll('.card').forEach(card=>{
-    const i=parseInt(card.dataset.idx);
-    const row=data[i];
-    const m=(!q||row[3].toLowerCase().includes(q)||row[4].toLowerCase().includes(q)||(row[5]||'').toLowerCase().includes(q))&&(!st||row[1]===st)&&(!ct||row[2]===ct);
-    card.classList.toggle('hidden',!m);
-    if(m)vis++;
+function applyFilters() {
+  const q = document.getElementById('search').value.toLowerCase();
+  const st = document.getElementById('fs').value;
+  const ct = document.getElementById('fc').value;
+  let vis = 0;
+  document.querySelectorAll('.card').forEach(card => {
+    const row = allData[parseInt(card.dataset.idx)];
+    const m = (!q || row.unit.toLowerCase().includes(q) || row.task.toLowerCase().includes(q) || row.note.toLowerCase().includes(q))
+           && (!st || row.status === st)
+           && (!ct || row.cat === ct);
+    card.classList.toggle('hidden', !m);
+    if (m) vis++;
   });
-  document.getElementById('rc').textContent=`${vis} / ${data.length} 筆`;
-  document.getElementById('es').style.display=vis===0?'block':'none';
+  document.getElementById('rc').textContent = `${vis} / ${allData.length} 筆`;
+  document.getElementById('es').style.display = vis === 0 ? 'block' : 'none';
   updateStats();
 }
 
-function updateStats(){
-  const rows=[...document.querySelectorAll('.card:not(.hidden)')].map(c=>data[parseInt(c.dataset.idx)]);
-  const done=rows.filter(r=>r[1]==='已完成').length;
-  const prog=rows.filter(r=>r[1]==='進行中').length;
-  const ns=rows.filter(r=>r[1]==='未開始').length;
-  document.getElementById('sb').innerHTML=`
+function updateStats() {
+  const rows = [...document.querySelectorAll('.card:not(.hidden)')].map(c => allData[parseInt(c.dataset.idx)]);
+  const done = rows.filter(r => r.status==='已完成').length;
+  const prog = rows.filter(r => r.status==='進行中').length;
+  const ns   = rows.filter(r => r.status==='未開始').length;
+  document.getElementById('sb').innerHTML = `
     <div class="stat-card"><div class="n">${rows.length}</div><div class="l">總計</div></div>
     <div class="stat-card done"><div class="n">${done}</div><div class="l">已完成</div></div>
     <div class="stat-card prog"><div class="n">${prog}</div><div class="l">進行中</div></div>
     <div class="stat-card"><div class="n">${ns}</div><div class="l">未開始</div></div>`;
 }
 
-buildCards();
+loadData();
 </script>
 </body>
 </html>
