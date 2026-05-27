@@ -159,7 +159,7 @@ async function loadData() {
     const rows = parseCSV(text);
 
     // 跳過標題列，取 A~G 欄（index 0~6）
-    // A=日期 B=狀態 C=分類 D=單位 E=事由 F=待追蹤 G=備註
+    // A=日期 B=狀態 C=分類 D=單位 E=事由 F=備註
     allData = rows.slice(1)
       .filter(r => r[0] && r[0].trim())
       .map(r => ({
@@ -168,7 +168,7 @@ async function loadData() {
         cat:   (r[2]||'').trim(),
         unit:  (r[3]||'').trim(),
         task:  (r[4]||'').trim(),
-        note:  (r[6]||'').trim().replace(/\n/g,'；'),
+        note:  (r[5]||'').trim().replace(/\n/g,'；'),
       }));
 
     // 更新時間
