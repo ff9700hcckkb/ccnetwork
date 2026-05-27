@@ -6,71 +6,102 @@
 <title>工作記錄</title>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --bg:#f5f4f0;--surface:#fff;--border:#e2e0d8;
-    --text-primary:#1a1916;--text-secondary:#6b6960;--text-muted:#9c9a92;--accent:#2b5fa8;
-    --done-bg:#edf7f2;--done-c:#1a6b44;--prog-bg:#fff8e8;--prog-c:#8a5f10;--ns-bg:#f0f0f0;--ns-c:#555;
-  }
-  *{margin:0;padding:0;box-sizing:border-box}
-  body{font-family:'Noto Sans TC',sans-serif;background:var(--bg);color:var(--text-primary);font-size:14px;line-height:1.6}
-  header{background:var(--surface);border-bottom:1px solid var(--border);padding:18px 32px;position:sticky;top:0;z-index:100;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
-  .header-left h1{font-size:18px;font-weight:600;letter-spacing:-0.3px}
-  .header-left p{font-size:12px;color:var(--text-muted);margin-top:2px}
-  .controls{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
-  .search-box{position:relative}
-  .search-box input{border:1px solid var(--border);border-radius:6px;padding:7px 12px 7px 32px;font-size:13px;font-family:inherit;color:var(--text-primary);background:var(--bg);width:200px;outline:none;transition:border-color .15s}
-  .search-box input:focus{border-color:var(--accent)}
-  .search-box svg{position:absolute;left:9px;top:50%;transform:translateY(-50%);width:14px;height:14px;color:var(--text-muted)}
-  select{border:1px solid var(--border);border-radius:6px;padding:7px 28px 7px 10px;font-size:13px;font-family:inherit;color:var(--text-primary);background:var(--bg);outline:none;cursor:pointer;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%236b6960' stroke-width='1.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 9px center}
-  select:focus{border-color:var(--accent)}
-  .count-badge{font-size:12px;color:var(--text-muted);white-space:nowrap}
-  main{padding:24px 32px;max-width:1400px;margin:0 auto}
-  .stats-bar{display:flex;gap:12px;padding:0 0 20px;flex-wrap:wrap}
-  .stat-card{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:10px 18px;min-width:90px}
-  .stat-card .n{font-size:22px;font-weight:600}
-  .stat-card .l{font-size:11px;color:var(--text-muted);margin-top:1px}
-  .done .n{color:var(--done-c)}.prog .n{color:var(--prog-c)}
-  .table-wrap{background:var(--surface);border:1px solid var(--border);border-radius:10px;overflow:hidden}
-  table{width:100%;border-collapse:collapse}
-  thead th{background:#faf9f7;padding:10px 14px;text-align:left;font-size:11px;font-weight:600;color:var(--text-muted);letter-spacing:.5px;text-transform:uppercase;border-bottom:1px solid var(--border);white-space:nowrap;cursor:pointer;user-select:none}
-  thead th:hover{background:#f2f1ed}
-  thead th.sorted .si{color:var(--accent)}
-  tbody tr.data-row{border-bottom:1px solid #f0efe9;transition:background .1s}
-  tbody tr.data-row:hover{background:#fafaf8}
-  tbody tr.hidden{display:none}
-  tr.data-row.has-note .col-task{cursor:pointer}
-  tr.data-row.has-note .col-task .task-text{border-bottom:1px dashed #bbb;transition:color .15s}
-  tr.data-row.has-note .col-task:hover .task-text{color:var(--accent);border-bottom-color:var(--accent)}
-  .ei{display:inline-block;font-size:9px;margin-left:5px;color:var(--text-muted);transition:transform .2s}
-  tr.data-row.expanded .ei{transform:rotate(90deg)}
-  tr.note-row{display:none;background:#f4f7fd}
-  tr.note-row.open{display:table-row}
-  tr.note-row td{padding:0;border-bottom:1px solid #dce7f5}
-  .note-inner{display:flex;align-items:flex-start;gap:10px;padding:9px 14px 9px 26px;font-size:13px;color:#2b5fa8;line-height:1.7;border-left:3px solid #2b5fa8}
-  .note-inner svg{flex-shrink:0;margin-top:3px;width:14px;height:14px}
-  .note-tag{display:inline-block;background:#fdeef0;color:#9c2830;border-radius:4px;padding:1px 6px;font-size:11px;font-weight:600;margin-right:4px}
-  td{padding:10px 14px;vertical-align:middle}
-  .col-date{width:100px;font-size:13px;color:var(--text-secondary);white-space:nowrap}
-  .col-status{width:80px}.col-category{width:90px}.col-unit{width:90px;font-size:13px}
-  .badge{display:inline-block;padding:2px 8px;border-radius:20px;font-size:11px;font-weight:500;white-space:nowrap}
-  .s-done{background:var(--done-bg);color:var(--done-c)}
-  .s-prog{background:var(--prog-bg);color:var(--prog-c)}
-  .s-ns{background:var(--ns-bg);color:var(--ns-c)}
-  .c-meeting{background:#eef3fb;color:#2b5fa8}
-  .c-general{background:#f0f4ee;color:#3a6b2a}
-  .c-repair{background:#fdf2e8;color:#8c5a18}
-  .c-purchase{background:#f5eef8;color:#6b3888}
-  .c-remote{background:#edf7f5;color:#1e7060}
-  .c-onsite{background:#fdeef0;color:#9c2830}
-  .c-security{background:#fef8e8;color:#8a6a10}
-  .c-other{background:#f0efee;color:#555248}
-  .empty-state{text-align:center;padding:60px 20px;color:var(--text-muted);font-size:14px;display:none}
-  @media(max-width:768px){header{padding:14px 16px}main{padding:16px}.search-box input{width:140px}}
+:root{
+  --bg:#f5f4f0;--surface:#fff;--border:#e2e0d8;
+  --text-primary:#1a1916;--text-secondary:#6b6960;--text-muted:#9c9a92;--accent:#2b5fa8;
+  --done-bg:#edf7f2;--done-c:#1a6b44;--prog-bg:#fff8e8;--prog-c:#8a5f10;--ns-bg:#f0f0f0;--ns-c:#555;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Noto Sans TC',sans-serif;background:var(--bg);color:var(--text-primary);font-size:14px;line-height:1.6}
+
+/* HEADER */
+header{background:var(--surface);border-bottom:1px solid var(--border);padding:12px 16px;position:sticky;top:0;z-index:100}
+.header-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+.header-top h1{font-size:16px;font-weight:600}
+.header-top p{font-size:11px;color:var(--text-muted)}
+.controls{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+.search-box{position:relative;flex:1;min-width:120px}
+.search-box input{width:100%;border:1px solid var(--border);border-radius:6px;padding:6px 10px 6px 28px;font-size:13px;font-family:inherit;color:var(--text-primary);background:var(--bg);outline:none}
+.search-box input:focus{border-color:var(--accent)}
+.search-box svg{position:absolute;left:8px;top:50%;transform:translateY(-50%);width:13px;height:13px;color:var(--text-muted)}
+select{border:1px solid var(--border);border-radius:6px;padding:6px 24px 6px 8px;font-size:12px;font-family:inherit;color:var(--text-primary);background:var(--bg);outline:none;cursor:pointer;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%236b6960' stroke-width='1.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 7px center}
+.count-badge{font-size:11px;color:var(--text-muted);white-space:nowrap}
+
+/* STATS */
+.stats-bar{display:flex;gap:8px;padding:12px 16px 0;overflow-x:auto;-webkit-overflow-scrolling:touch}
+.stats-bar::-webkit-scrollbar{display:none}
+.stat-card{background:var(--surface);border:1px solid var(--border);border-radius:7px;padding:6px 12px;display:flex;align-items:center;gap:7px;white-space:nowrap;flex-shrink:0}
+.stat-card .n{font-size:16px;font-weight:600;line-height:1}
+.stat-card .l{font-size:11px;color:var(--text-muted)}
+.done .n{color:var(--done-c)}.prog .n{color:var(--prog-c)}
+
+/* MAIN */
+main{padding:10px 16px 24px}
+
+/* CARD LIST */
+.card-list{display:flex;flex-direction:column;gap:8px;margin-top:10px}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:10px;overflow:hidden}
+.card-main{padding:11px 13px;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.card-top{display:flex;align-items:center;gap:6px;margin-bottom:5px;flex-wrap:wrap}
+.card-date{font-size:11px;color:var(--text-muted)}
+.card-bottom{display:flex;align-items:flex-start;justify-content:space-between;gap:8px}
+.card-task{font-size:14px;color:var(--text-primary);flex:1;line-height:1.5}
+.card-unit{font-size:12px;color:var(--text-secondary);flex-shrink:0;margin-top:2px}
+.expand-icon{font-size:10px;color:var(--text-muted);transition:transform .2s;flex-shrink:0;margin-top:4px}
+.card.expanded .expand-icon{transform:rotate(90deg)}
+
+/* NOTE PANEL */
+.card-note{display:none;border-top:1px solid #dce7f5;background:#f4f7fd;padding:10px 13px;border-left:3px solid var(--accent)}
+.card.expanded .card-note{display:block}
+.card-note-inner{display:flex;align-items:flex-start;gap:8px}
+.card-note-inner svg{flex-shrink:0;margin-top:3px;width:13px;height:13px;color:var(--accent)}
+.card-note-text{font-size:13px;color:#2b5fa8;line-height:1.7;white-space:pre-wrap;word-break:break-all}
+.note-tag{display:inline-block;background:#fdeef0;color:#9c2830;border-radius:4px;padding:1px 6px;font-size:11px;font-weight:600;margin-right:4px}
+
+/* BADGES */
+.badge{display:inline-block;padding:2px 7px;border-radius:20px;font-size:11px;font-weight:500;white-space:nowrap}
+.s-done{background:var(--done-bg);color:var(--done-c)}
+.s-prog{background:var(--prog-bg);color:var(--prog-c)}
+.s-ns{background:var(--ns-bg);color:var(--ns-c)}
+.c-meeting{background:#eef3fb;color:#2b5fa8}
+.c-general{background:#f0f4ee;color:#3a6b2a}
+.c-repair{background:#fdf2e8;color:#8c5a18}
+.c-purchase{background:#f5eef8;color:#6b3888}
+.c-remote{background:#edf7f5;color:#1e7060}
+.c-onsite{background:#fdeef0;color:#9c2830}
+.c-security{background:#fef8e8;color:#8a6a10}
+.c-other{background:#f0efee;color:#555248}
+
+.empty-state{text-align:center;padding:40px 20px;color:var(--text-muted);font-size:14px;display:none}
+.hidden{display:none!important}
+
+/* DESKTOP: 寬螢幕改回表格 */
+@media(min-width:768px){
+  header{padding:18px 32px}
+  .header-top{margin-bottom:10px}
+  .header-top h1{font-size:18px}
+  .controls{gap:10px}
+  .stats-bar{padding:20px 32px 0;gap:12px}
+  .stat-card{padding:10px 16px;gap:8px}
+  .stat-card .n{font-size:20px}
+  .stat-card .l{font-size:12px}
+  main{padding:16px 32px 32px}
+  .card-list{gap:0;border:1px solid var(--border);border-radius:10px;overflow:hidden;background:var(--surface);margin-top:16px}
+  .card{border:none;border-bottom:1px solid #f0efe9;border-radius:0}
+  .card:last-child{border-bottom:none}
+  .card-main{display:grid;grid-template-columns:100px 80px 90px 90px 1fr;align-items:center;gap:0;padding:10px 0;cursor:default}
+  .card.has-note .card-main{cursor:pointer}
+  .card-top{display:contents}
+  .card-date{padding:0 14px;font-size:13px}
+  .card-bottom{display:contents}
+  .card-task{padding:0 14px;font-size:13px}
+  .card-unit{padding:0 14px;font-size:13px;margin-top:0}
+}
 </style>
 </head>
 <body>
 <header>
-  <div class="header-left">
+  <div class="header-top">
     <h1>工作記錄</h1>
     <p>最後更新：2026/5/27</p>
   </div>
@@ -99,26 +130,15 @@
     <span class="count-badge" id="rc"></span>
   </div>
 </header>
+
+<div class="stats-bar" id="sb"></div>
+
 <main>
-  <div class="stats-bar" id="sb"></div>
-  <div class="table-wrap">
-    <table>
-      <thead>
-        <tr>
-          <th class="col-date" onclick="sortTable(0)">日期 <span class="si">↕</span></th>
-          <th class="col-status">狀態</th>
-          <th class="col-category">分類</th>
-          <th class="col-unit">單位</th>
-          <th>事由 <span style="font-size:10px;color:#ccc;font-weight:400;letter-spacing:0;text-transform:none">(有備註可點擊展開)</span></th>
-        </tr>
-      </thead>
-      <tbody id="tb"></tbody>
-    </table>
-    <div class="empty-state" id="es">找不到符合條件的記錄</div>
-  </div>
+  <div class="card-list" id="cl"></div>
+  <div class="empty-state" id="es">找不到符合條件的記錄</div>
 </main>
+
 <script>
-// A=日期 B=狀態 C=分類 D=單位 E=事由 F=備註
 const data=[
 ["2026/6/8","未開始","會議","網路組","計算機指導委員會",""],
 ["2026/6/6","未開始","一般事務","課指組","畢業典禮",""],
@@ -223,45 +243,48 @@ const data=[
 
 const catC={"會議":"c-meeting","一般事務":"c-general","維修檢測":"c-repair","詢價採購":"c-purchase","遠端協助":"c-remote","到場協助":"c-onsite","資安":"c-security","其它":"c-other"};
 const stC={"已完成":"s-done","進行中":"s-prog","未開始":"s-ns"};
-let sCol=0,sDir=-1;
 
-function buildTable(){
-  const tb=document.getElementById('tb');
-  tb.innerHTML='';
+function buildCards(){
+  const cl=document.getElementById('cl');
+  cl.innerHTML='';
   data.forEach((row,i)=>{
     const note=row[5]||'';
     const hasNote=note.trim()!=='';
     const isTracked=note.includes('【待追蹤】');
+    const displayNote=note.replace('【待追蹤】','').trim();
 
-    const tr=document.createElement('tr');
-    tr.className='data-row'+(hasNote?' has-note':'');
-    tr.dataset.idx=i;
-    tr.innerHTML=`
-      <td class="col-date">${row[0]}</td>
-      <td class="col-status"><span class="badge ${stC[row[1]]||''}">${row[1]}</span></td>
-      <td class="col-category"><span class="badge ${catC[row[2]]||'c-other'}">${row[2]}</span></td>
-      <td class="col-unit">${isTracked?'<span style="display:inline-block;width:7px;height:7px;background:#e05555;border-radius:50%;margin-right:5px;vertical-align:middle"></span>':''}${row[3]}</td>
-      <td class="col-task"><span class="task-text">${row[4]}</span>${hasNote?'<span class="ei">▶</span>':''}</td>`;
+    const card=document.createElement('div');
+    card.className='card'+(hasNote?' has-note':'');
+    card.dataset.idx=i;
+
+    card.innerHTML=`
+      <div class="card-main">
+        <div class="card-top">
+          <span class="card-date">${row[0]}</span>
+          <span class="badge ${stC[row[1]]||''}">${row[1]}</span>
+          <span class="badge ${catC[row[2]]||'c-other'}">${row[2]}</span>
+        </div>
+        <div class="card-bottom">
+          <div>
+            <div class="card-task">${row[4]}</div>
+            <div class="card-unit" style="margin-top:3px">${isTracked?'<span style="display:inline-block;width:6px;height:6px;background:#e05555;border-radius:50%;margin-right:4px;vertical-align:middle"></span>':''}${row[3]}</div>
+          </div>
+          ${hasNote?'<span class="expand-icon">▶</span>':''}
+        </div>
+      </div>
+      ${hasNote?`<div class="card-note">
+        <div class="card-note-inner">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+          <div class="card-note-text">${isTracked?'<span class="note-tag">待追蹤</span>':''}${displayNote}</div>
+        </div>
+      </div>`:''}`;
 
     if(hasNote){
-      tr.querySelector('.col-task').addEventListener('click',()=>{
-        const nr=tr.nextElementSibling;
-        const open=nr.classList.contains('open');
-        nr.classList.toggle('open',!open);
-        tr.classList.toggle('expanded',!open);
+      card.querySelector('.card-main').addEventListener('click',()=>{
+        card.classList.toggle('expanded');
       });
     }
-    tb.appendChild(tr);
-
-    const nr=document.createElement('tr');
-    nr.className='note-row';
-    nr.dataset.idx=i;
-    if(hasNote){
-      const displayNote=note.replace('【待追蹤】','').trim();
-      const tagHtml=isTracked?'<span class="note-tag">待追蹤</span>':'';
-      nr.innerHTML=`<td colspan="5"><div class="note-inner"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>${tagHtml}${displayNote}</div></td>`;
-    }
-    tb.appendChild(nr);
+    cl.appendChild(card);
   });
   applyFilters();
 }
@@ -271,22 +294,20 @@ function applyFilters(){
   const st=document.getElementById('fs').value;
   const ct=document.getElementById('fc').value;
   let vis=0;
-  document.querySelectorAll('#tb tr.data-row').forEach(tr=>{
-    const i=parseInt(tr.dataset.idx);
+  document.querySelectorAll('.card').forEach(card=>{
+    const i=parseInt(card.dataset.idx);
     const row=data[i];
-    const nr=tr.nextElementSibling;
     const m=(!q||row[3].toLowerCase().includes(q)||row[4].toLowerCase().includes(q)||(row[5]||'').toLowerCase().includes(q))&&(!st||row[1]===st)&&(!ct||row[2]===ct);
-    tr.classList.toggle('hidden',!m);
-    if(nr)nr.classList.toggle('hidden',!m);
+    card.classList.toggle('hidden',!m);
     if(m)vis++;
   });
-  document.getElementById('rc').textContent=`顯示 ${vis} / ${data.length} 筆`;
+  document.getElementById('rc').textContent=`${vis} / ${data.length} 筆`;
   document.getElementById('es').style.display=vis===0?'block':'none';
   updateStats();
 }
 
 function updateStats(){
-  const rows=[...document.querySelectorAll('#tb tr.data-row:not(.hidden)')].map(tr=>data[parseInt(tr.dataset.idx)]);
+  const rows=[...document.querySelectorAll('.card:not(.hidden)')].map(c=>data[parseInt(c.dataset.idx)]);
   const done=rows.filter(r=>r[1]==='已完成').length;
   const prog=rows.filter(r=>r[1]==='進行中').length;
   const ns=rows.filter(r=>r[1]==='未開始').length;
@@ -297,18 +318,7 @@ function updateStats(){
     <div class="stat-card"><div class="n">${ns}</div><div class="l">未開始</div></div>`;
 }
 
-function sortTable(col){
-  if(sCol===col)sDir*=-1;else{sCol=col;sDir=-1;}
-  data.sort((a,b)=>a[col]<b[col]?sDir:a[col]>b[col]?-sDir:0);
-  document.querySelectorAll('thead th').forEach((th,i)=>{
-    th.classList.toggle('sorted',i===col);
-    const si=th.querySelector('.si');
-    if(si)si.textContent=i===col?(sDir===-1?'↓':'↑'):'↕';
-  });
-  buildTable();
-}
-
-buildTable();
+buildCards();
 </script>
 </body>
 </html>
