@@ -91,6 +91,7 @@ main{padding:10px 16px 24px}
       <option value="已完成">已完成</option>
       <option value="進行中">進行中</option>
       <option value="未開始">未開始</option>
+      <option value="待追蹤">待追蹤</option>
     </select>
     <select id="fc" onchange="applyFilters()">
       <option value="">全部分類</option>
@@ -230,7 +231,7 @@ function applyFilters() {
   document.querySelectorAll('.card').forEach(card => {
     const row = allData[parseInt(card.dataset.idx)];
     const m = (!q || row.unit.toLowerCase().includes(q) || row.task.toLowerCase().includes(q) || row.note.toLowerCase().includes(q))
-           && (!st || row.status === st)
+           && (!st || (st === '待追蹤' ? row.note.includes('待追蹤') : row.status === st))
            && (!ct || row.cat === ct);
     card.classList.toggle('hidden', !m);
     if (m) vis++;
